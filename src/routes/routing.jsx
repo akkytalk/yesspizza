@@ -19,9 +19,15 @@ var ThemeRoutes = [
     name: "Billing",
     icon: "fas fa-credit-card",
   },
+  
   {
     path: "/expense",
     name: "Expense Management",
+    icon: "fas fa-rupee-sign",
+  },
+  {
+    path: "/expenses-type",
+    name: "Expense Type",
     icon: "fas fa-rupee-sign",
   },
   {

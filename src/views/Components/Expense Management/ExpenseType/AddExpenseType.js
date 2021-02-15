@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Formik, Form, Field } from "formik";
-import CustomInput from "../Custom/CustomInput";
-import CustomSelect from "../Custom/CustomSelect";
-import { postExpense } from "../../../redux/Creators/ExpenseCreators";
+import CustomInput from "../../Custom/CustomInput";
+import CustomSelect from "../../Custom/CustomSelect";
+import { postExpense } from "../../../../redux/Creators/ExpenseCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -33,7 +33,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-class AddExpense extends Component {
+class AddExpenseType extends Component {
   constructor(props) {
     super(props);
     this.state = { modal: false };
@@ -61,9 +61,7 @@ class AddExpense extends Component {
     const token = props.login.login.access_token;
     let data = {
       token: token,
-      expense_type_id: values.category_name,
-      remark: values.remark,
-      amount: values.amount,
+      name: values.name
       
     };
     console.log("data value", data);
@@ -77,27 +75,25 @@ class AddExpense extends Component {
     return (
       <React.Fragment>
         <Button className="btn-success pull-right" onClick={this.toggle}>
-          Add Expense Mangement
+          Add Expense Type
         </Button>
         <Modal
           className="modal-info modal-lg"
           isOpen={this.state.modal}
           toggle={this.toggle}
         >
-          <ModalHeader toggle={this.toggle}>Add New Expense Mangement</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Add New Expense Type</ModalHeader>
           <ModalBody>
             <Formik
               initialValues={{
-                expense_type_id: "",
-                remark: "",
-                amount: "",
+                name:""
                 
               }}
               onSubmit={this.handleSubmit}
             >
               {formProps => (
                 <Form>
-                  <Row className="form-group">
+                  {/* <Row className="form-group">
                     <Col md={6}>
                       <Label for="expense_type_id">Expense Type</Label>
                       <InputGroup>
@@ -125,10 +121,10 @@ class AddExpense extends Component {
                       </InputGroup>
                     </Col>
                    
-                  </Row>
+                  </Row> */}
                   <Row className="form-group">
                     <Col md={6}>
-                      <Label for="remark">Expense Name</Label>
+                      <Label for="name">Expense Type</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -138,34 +134,15 @@ class AddExpense extends Component {
                         <Field
                           component={CustomInput}
                           type="text"
-                          name="remark"
-                          id="remark"
-                          placeholder="Enter Expense Name"
+                          name="name"
+                          id="name"
+                          placeholder="Enter Expense Type"
                         />
                       </InputGroup>
                     </Col>
                     
                   </Row>
-                  <Row className="form-group">
-                    <Col md={6}>
-                      <Label for="type">Expense Amount</Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                          component={CustomInput}
-                          type="text"
-                          name="amount"
-                          id="amount"
-                          placeholder="Enter Expense Amount"
-                        />
-                      </InputGroup>
-                    </Col>
-                    
-                  </Row>
+                  
           
                   
                   <br />
@@ -200,5 +177,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(AddExpense)
+  )(AddExpenseType)
 );

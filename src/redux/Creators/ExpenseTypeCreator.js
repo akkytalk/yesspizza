@@ -1,15 +1,15 @@
 import * as ActionTypes from "../Types/ActionTypes";
 import { baseUrl } from "../../shared/baseUrl";
 
-export const getExpensePage = data => dispatch => {
-  dispatch(expenseLoading(true));
+export const getExpenseTypePage = data => dispatch => {
+  dispatch(expenseTypeLoading(true));
   const myheader = new Headers({
     Accept: "application/json",
     "Content-Type": "application/json",
     Authorization: "Bearer " + data.token
   });
 
-  return fetch(baseUrl + "expenses?page=" + data.pageno + "&pageSize=" + data.pageSize, {
+  return fetch(baseUrl + "expensetypes?page=" + data.pageno + "&pageSize=" + data.pageSize, {
     method: "get",
     headers: myheader
   })
@@ -27,21 +27,21 @@ export const getExpensePage = data => dispatch => {
       throw error;
     })
     .then(response => response.json())
-    .then(expense => {
-      dispatch(fetchExpense(expense.Expense));
+    .then(expenseType => {
+      dispatch(fetchExpenseType(expenseType.ExpenseType));
     })
-    .catch(error => dispatch(expenseFailed(error)));
+    .catch(error => dispatch(expenseTypeFailed(error)));
 };
 
-export const getExpense = data => dispatch => {
-  dispatch(expenseLoading(true));
+export const getExpenseType = data => dispatch => {
+  dispatch(expenseTypeLoading(true));
   const myheader = new Headers({
     Accept: "application/json",
     "Content-Type": "application/json",
     Authorization: "Bearer " + data.token
   });
 
-  return fetch(baseUrl + "getexpense", {
+  return fetch(baseUrl + "getexpensetype", {
     method: "get",
     headers: myheader
   })
@@ -57,21 +57,21 @@ export const getExpense = data => dispatch => {
       throw error;
     })
     .then(response => response.json())
-    .then(expenseid => {
-      dispatch(fetchExpenseID(expenseid.Expense));
+    .then(expenseTypeid => {
+      dispatch(fetchExpenseTypeID(expenseTypeid.ExpenseType));
     })
-    .catch(error => dispatch(expenseFailed(error)));
+    .catch(error => dispatch(expenseTypeFailed(error)));
 };
 
-export const postExpense = data => dispatch => {
-  dispatch(expenseLoading(true));
+export const postExpenseType = data => dispatch => {
+  dispatch(expenseTypeLoading(true));
   const myheader = new Headers({
     Accept: "application/json",
     "Content-Type": "application/json",
     Authorization: "Bearer " + data.token
   });
 
-  return fetch(baseUrl + "expenses", {
+  return fetch(baseUrl + "expensetypes", {
     method: "post",
     headers: myheader,
     body: JSON.stringify(data)
@@ -88,20 +88,20 @@ export const postExpense = data => dispatch => {
       throw error;
     })
     .then(response => response.json())
-    .then(expense => {
-      dispatch(addExpense(expense.Expense));
+    .then(expenseType => {
+      dispatch(addExpenseType(expenseType.ExpenseType));
     })
-    .catch(error => dispatch(expenseFailed(error)));
+    .catch(error => dispatch(expenseTypeFailed(error)));
 };
 
-export const removeExpense = data => dispatch => {
+export const removeExpenseType = data => dispatch => {
   const myheader = new Headers({
     Accept: "application/json",
     "Content-Type": "application/json",
     Authorization: "Bearer " + data.token
   });
 
-  return fetch(baseUrl + "expense/" + data.id, {
+  return fetch(baseUrl + "expensetype/" + data.id, {
     method: "delete",
     headers: myheader
   })
@@ -117,20 +117,20 @@ export const removeExpense = data => dispatch => {
       throw error;
     })
     .then(response => response.json())
-    .then(expense => {
-      dispatch(deleteExpense(data));
+    .then(expenseType => {
+      dispatch(deleteExpenseType(data));
     })
-    .catch(error => dispatch(expenseFailed(error)));
+    .catch(error => dispatch(expenseTypeFailed(error)));
 };
 
-export const editExpense = data => dispatch => {
+export const editExpenseType = data => dispatch => {
   const myheader = new Headers({
     Accept: "application/json",
     "Content-Type": "application/json",
     Authorization: "Bearer " + data.token
   });
 
-  return fetch(baseUrl + "expense/" + data.id, {
+  return fetch(baseUrl + "expensetype/" + data.id, {
     method: "post",
     headers: myheader,
     body: JSON.stringify(data)
@@ -147,21 +147,21 @@ export const editExpense = data => dispatch => {
       throw error;
     })
     .then(response => response.json())
-    .then(expense => {
-      dispatch(updateExpense(expense.Expense));
+    .then(expenseType => {
+      dispatch(updateExpenseType(expenseType.ExpenseType));
     })
-    .catch(error => dispatch(expenseFailed(error)));
+    .catch(error => dispatch(expenseTypeFailed(error)));
 };
 
-export const showExpense = data => dispatch => {
-  dispatch(expenseLoading(true));
+export const showExpenseType = data => dispatch => {
+  dispatch(expenseTypeLoading(true));
   const myheader = new Headers({
     Accept: "application/json",
     "Content-Type": "application/json",
     Authorization: "Bearer " + data.token
   });
 
-  return fetch(baseUrl + "expense/" + data.id + "?page=" + data.pageno, {
+  return fetch(baseUrl + "expensetype/" + data.id + "?page=" + data.pageno, {
     method: "get",
     headers: myheader
   })
@@ -178,41 +178,41 @@ export const showExpense = data => dispatch => {
     })
     .then(response => response.json())
     .then(res => {
-      dispatch(fetchExpense(res.Expense));
+      dispatch(fetchExpenseType(res.ExpenseType));
     })
-    .catch(error => dispatch(expenseFailed(error)));
+    .catch(error => dispatch(expenseTypeFailed(error)));
 };
 
-export const expenseLoading = () => ({
-  type: ActionTypes.EXPENSE_LOADING
+export const expenseTypeLoading = () => ({
+  type: ActionTypes.EXPENSE_TYPE_LOADING
 });
 
-export const expenseFailed = errmess => ({
-  type: ActionTypes.EXPENSE_FAILED,
+export const expenseTypeFailed = errmess => ({
+  type: ActionTypes.EXPENSE_TYPE_FAILED,
   payload: errmess
 });
 
-export const addExpense = expense => ({
-  type: ActionTypes.POST_EXPENSE,
-  payload: expense
+export const addExpenseType = expenseType => ({
+  type: ActionTypes.POST_EXPENSE_TYPE,
+  payload: expenseType
 });
 
-export const updateExpense = expense => ({
-  type: ActionTypes.EDIT_EXPENSE,
-  payload: expense
+export const updateExpenseType = expenseType => ({
+  type: ActionTypes.EDIT_EXPENSE_TYPE,
+  payload: expenseType
 });
 
-export const deleteExpense = expense => ({
-  type: ActionTypes.DELETE_EXPENSE,
-  payload: expense
+export const deleteExpenseType = expenseType => ({
+  type: ActionTypes.DELETE_EXPENSE_TYPE,
+  payload: expenseType
 });
 
-export const fetchExpense = expense => ({
-  type: ActionTypes.FETCH_EXPENSE,
-  payload: expense
+export const fetchExpenseType = expenseType => ({
+  type: ActionTypes.FETCH_EXPENSE_TYPE,
+  payload: expenseType
 });
 
-export const fetchExpenseID = expenseid => ({
-  type: ActionTypes.FETCH_EXPENSEID,
-  payload: expenseid
+export const fetchExpenseTypeID = expenseTypeid => ({
+  type: ActionTypes.FETCH_EXPENSE_TYPEID,
+  payload: expenseTypeid
 });

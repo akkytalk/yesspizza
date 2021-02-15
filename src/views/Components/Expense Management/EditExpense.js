@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import { Formik, Form, Field } from "formik";
 import CustomInput from "../Custom/CustomInput";
 import CustomSelect from "../Custom/CustomSelect";
-import { postExpense } from "../../../redux/Creators/ExpenseCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
+import { editExpense } from "../../../redux/Creators/ExpenseCreators";
 import {
   Row,
   Col,
@@ -28,12 +27,12 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  postExpense: data => {
-    dispatch(postExpense(data));
+  editExpense: data => {
+    dispatch(editExpense(data));
   }
 });
 
-class AddExpense extends Component {
+class EditExpense extends Component {
   constructor(props) {
     super(props);
     this.state = { modal: false };
@@ -47,10 +46,8 @@ class AddExpense extends Component {
     });
   }
 
-  
-
   componentDidUpdate() {
-    if (this.props.addExpense.expense.length > 0) {
+    if (this.props.addExpense.edit.length > 0) {
       this.setState({
         modal: false
       });
@@ -59,39 +56,52 @@ class AddExpense extends Component {
 
   handleSubmit = (values, { props = this.props, setSubmitting }) => {
     const token = props.login.login.access_token;
+    const id = props.id.id;
     let data = {
       token: token,
-      expense_type_id: values.category_name,
-      remark: values.remark,
-      amount: values.amount,
-      
+      id: id,
+      category_name: values.category_name,
+      expense_name: values.expense_name,
+      hsn_code: values.hsn_code,
+      type: values.type,
+      weight: values.weight,
+      size: values.size,
+      color: values.color,
+      sale_rate: values.sale_rate,
+      gst_rate: values.gst_rate
     };
-    console.log("data value", data);
-    props.postExpense(data);
+    props.editExpense(data);
     setSubmitting(false);
     return;
   };
 
   render() {
-    const data = this.props.categorydata;
+    const data = this.props.id;
+    const category = this.props.categorydata;
     return (
       <React.Fragment>
-        <Button className="btn-success pull-right" onClick={this.toggle}>
-          Add Expense Mangement
+        <Button size="sm" className="btn-info pull-right" onClick={this.toggle}>
+          <i className="fa fa-pencil-alt" />
         </Button>
         <Modal
           className="modal-info modal-lg"
           isOpen={this.state.modal}
           toggle={this.toggle}
         >
-          <ModalHeader toggle={this.toggle}>Add New Expense Mangement</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Edit Category</ModalHeader>
           <ModalBody>
             <Formik
               initialValues={{
-                expense_type_id: "",
-                remark: "",
-                amount: "",
+                category_name: data
+                  ? data.category
+                    ? data.category.category_name
+                    : ""
+                  : "",
                 
+                // expense_type_id: data ? data.expense_type_id : "",
+                remark: data ? data.remark : "",
+                amount: data ? data.amount : "",
+            
               }}
               onSubmit={this.handleSubmit}
             >
@@ -99,11 +109,11 @@ class AddExpense extends Component {
                 <Form>
                   <Row className="form-group">
                     <Col md={6}>
-                      <Label for="expense_type_id">Expense Type</Label>
+                      <Label for="category_name">Category Name</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
+                            <i className="far fa-calendar-alt" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Field
@@ -114,25 +124,22 @@ class AddExpense extends Component {
                         >
                           <option hidden>Select Category</option>
                           <option disabled>Select Category</option>
-                          {data
-                            ? data.map((data, index) => (
+                          {category
+                            ? category.map((category, index) => (
                                 <option key={index}>
-                                  {data.category_name}
+                                  {category.category_name}
                                 </option>
                               ))
                             : null}
                         </Field>
                       </InputGroup>
                     </Col>
-                   
-                  </Row>
-                  <Row className="form-group">
                     <Col md={6}>
-                      <Label for="remark">Expense Name</Label>
+                      <Label for="expense_name">Expense Name</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
+                            <i className="far fa-calendar-alt" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Field
@@ -144,15 +151,14 @@ class AddExpense extends Component {
                         />
                       </InputGroup>
                     </Col>
-                    
                   </Row>
                   <Row className="form-group">
                     <Col md={6}>
-                      <Label for="type">Expense Amount</Label>
+                      <Label for="amount">HSN Code</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
+                            <i className="far fa-calendar-alt" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Field
@@ -166,7 +172,8 @@ class AddExpense extends Component {
                     </Col>
                     
                   </Row>
-          
+                  
+                  
                   
                   <br />
                   <Row style={{ justifyContent: "center" }}>
@@ -200,5 +207,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(AddExpense)
+  )(EditExpense)
 );

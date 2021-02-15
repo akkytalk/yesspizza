@@ -1,51 +1,58 @@
 import React, { Component } from "react";
-import AddProduct from "./AddProduct";
-import EditProduct from "./EditProduct";
-//import "react-table/react-table.css";
+// import AddExpense from "../Expense/AddExpense";
+import EditExpense from "../EditExpense";
+// import "react-table/react-table.css";
 import ReactTable from "react-table";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
-  getProductPage,
-  deleteProduct,
-  removeProduct
-} from "../../../redux/Creators/ProductCreators";
-import { getCategory } from "../../../redux/Creators/CategoryCreators";
+  getExpenseTypePage,
+  getExpenseType,
+  postExpenseType
+} from "../../../../redux/Creators/ExpenseTypeCreator";
+ 
 import {
   Card,
   CardHeader,
   CardBody,
   Row,
-  Col,
+  Col, 
   Container,
   Button
 } from "reactstrap";
+import AddExpense from "../AddExpense";
+import { getCategory } from "../../../../redux/Creators/CategoryCreators";
+import AddExpenseType from "./AddExpenseType";
+import EditExpenseType from "./EditExpenseType";
 
 const mapStateToProps = state => {
   return {
     login: state.login,
-    product: state.product,
+    expenseType: state.expenseType,
     category: state.category,
-    addProduct: state.addProduct
+    addExpenseType: state.addExpenseType
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  getProductPage: data => {
-    dispatch(getProductPage(data));
+  getExpenseTypePage: data => {
+    dispatch(getExpenseTypePage(data));
   },
   getCategory: data => {
     dispatch(getCategory(data));
   },
-  deleteProduct: data => {
-    dispatch(deleteProduct(data));
+  getExpenseType: data => {
+    dispatch(getExpenseType(data));
   },
-  removeProduct: data => {
-    dispatch(removeProduct(data));
+  // removeExpenseType: data => {
+  //   dispatch(removeExpenseType(data));
+  // }
+  postExpenseType: data => {
+    dispatch(postExpenseType(data));
   }
 });
 
-class Product extends Component {
+class ExpenseType extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,7 +66,7 @@ class Product extends Component {
 
   componentDidMount() {
     this.fetchCategory();
-    console.log("product data", this.props.product)
+    console.log("expenseType data", this.props.expenseType)
   }
 
   fetchCategory() {
@@ -85,27 +92,27 @@ class Product extends Component {
       token: token
     };
 
-    await this.props.getProductPage(data);
+    await this.props.getExpenseTypePage(data);
   }
 
   async handleDelete(data, event) {
     event.preventDefault();
     const token = this.props.login.login.access_token;
     data.token = token;
-    await this.props.removeProduct(data);
+    await this.props.postExpenseType(data);
   }
 
   componentDidUpdate() {
-    if (this.props.addProduct.product.length > 0) {
-      this.props.deleteProduct("");
+    if (this.props.addExpenseType.expenseType.length > 0) {
+      this.props.deleteExpenseType("");
       this.fetchData(this.state, "aaaa");
     }
-    if (this.props.addProduct.delete.length > 0) {
-      this.props.deleteProduct("");
+    if (this.props.addExpenseType.delete.length > 0) {
+      this.props.deleteExpenseType("");
       this.fetchData(this.state, "aaaa");
     }
-    if (this.props.addProduct.edit.length > 0) {
-      this.props.deleteProduct("");
+    if (this.props.addExpenseType.edit.length > 0) {
+      this.props.deleteExpenseType("");
       this.fetchData(this.state, "aaaa");
     }
   }
@@ -121,25 +128,18 @@ class Product extends Component {
         {
           Header: "Data",
           columns: [
+            
+            // {
+            //   Header: "Expense type",
+            //   accessor: "expenseType_type.name"
+            // },
+            // {
+            //   Header: "Expense Name",
+            //   accessor: "remark"
+            // },
             {
-              Header: "Product Name",
-              accessor: "product_name"
-            },
-            {
-              Header: "Category Name",
-              accessor: "category.category_name"
-            },
-            {
-              Header: "Sale Rate",
-              accessor: "sale_rate"
-            },
-            {
-              Header: "Type",
-              accessor: "type"
-            },
-            {
-              Header: "Weight",
-              accessor: "weight"
+              Header: "Expense Type",
+              accessor: "name"
             }
           ]
         }
@@ -149,25 +149,18 @@ class Product extends Component {
         {
           Header: "Data",
           columns: [
+            // {
+            //   Header: "Expense type",
+            //   accessor: "expenseType_type.name"
+            // },
+            // {
+            //   Header: "Expense Name",
+            //   accessor: "remark"
+            // },
+      
             {
-              Header: "Product Name",
-              accessor: "product_name"
-            },
-            {
-              Header: "Category Name",
-              accessor: "category.category_name"
-            },
-            {
-              Header: "Sale Rate",
-              accessor: "sale_rate"
-            },
-            {
-              Header: "Type",
-              accessor: "type"
-            },
-            {
-              Header: "Weight",
-              accessor: "weight"
+              Header: "Expense Type",
+              accessor: "name"
             }
           ]
         },
@@ -181,7 +174,7 @@ class Product extends Component {
                 <Container>
                   <Row>
                     <Col>
-                      <EditProduct
+                      <EditExpenseType
                         id={row._original}
                         categorydata={this.props.category.categoryid}
                       />
@@ -218,20 +211,23 @@ class Product extends Component {
     return (
       <Card>
         <CardHeader className="bg-primary text-white">
-          <i className="fas fa-box" /> <strong>Product</strong>
+          <i className="fas fa-rupee-sign" /> <strong>Expense Type</strong>
           {
             this.props.login.login.user.type === "company" && this.props.login.login.user.role === "admin" ? 
-            <AddProduct categorydata={this.props.category.categoryid} />
-              : null
-          } 
+            <AddExpenseType categorydata={this.props.category.categoryid} />
+             : null
+          }
+          <a></a>
         </CardHeader>
+        
+       
         <CardBody>
           <ReactTable
             manual
             columns={columns}
-            loading={this.props.product.isLoading}
-            data={this.props.product.product.data}
-            pages={this.props.product.product.last_page}
+            loading={this.props.expenseType.isLoading}
+            // data={this.props.expenseType.expenseType.data}
+            // pages={this.props.expenseType.expenseType.last_page}
             onFetchData={(state, instance) => this.fetchData(state, instance)}
             defaultPageSize={10}
             // filterable
@@ -251,6 +247,4 @@ class Product extends Component {
   }
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Product)
-);
+export default withRouter( connect(mapStateToProps, mapDispatchToProps )(ExpenseType));

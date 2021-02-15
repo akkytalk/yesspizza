@@ -4,6 +4,7 @@ import Loader from "./components/loader/Loader";
 import Fulllayout from "./layouts/fulllayout.jsx";
 import Expense from "./views/Components/Expense Management/Expense";
 import AddExpense from "./views/Components/Expense Management/AddExpense";
+import ExpenseType from "./views/Components/Expense Management/ExpenseType/ExpenseType";
 
 function Loading() {
   return (
@@ -116,7 +117,8 @@ const routes = [
     component: CompanyProfile
   },
   { path: "/expense", exact: true, name: "ExpenseMangement", component: Expense },
-  { path: "/Addexpense", exact: true, name: "ExpenseMangement", component: AddExpense },
+  
+  { path: "/expenses-type", exact: true, name: "ExpenseType", component: ExpenseType },
 
 ];
 

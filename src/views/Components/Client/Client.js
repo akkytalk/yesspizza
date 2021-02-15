@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import AddClient from "./AddClient";
 import EditClient from "./EditClient";
-import "react-table/react-table.css";
+//import "react-table/react-table.css";
 import ReactTable from "react-table";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";

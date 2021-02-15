@@ -54,6 +54,7 @@ class Billing extends Component {
 
   componentDidMount() {
     this.fetchProduct();
+    console.log("billing data", this.props.billing)
   }
 
   fetchProduct() {

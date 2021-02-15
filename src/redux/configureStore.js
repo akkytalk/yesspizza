@@ -17,6 +17,10 @@ import { AddCompany } from "./Reducer/addCompany";
 import { AddClient } from "./Reducer/addClient";
 import { AddProduct } from "./Reducer/addProduct";
 import { AddSupplier } from "./Reducer/addSupplier";
+import { Expense } from "./Reducer/expense";
+import { AddExpense } from "./Reducer/addExpense";
+import { AddExpenseType } from "./Reducer/addExpenseType";
+import { ExpenseType } from "./Reducer/expenseType";
 
 const config = {
   key: "root",
@@ -32,6 +36,8 @@ export const configureStore = () => {
       addClient: AddClient,
       addProduct: AddProduct,
       addSupplier: AddSupplier,
+      addExpense: AddExpense,
+      addExpenseType: AddExpenseType,
       login: Login,
       billing: Billing,
       category: Category,
@@ -39,7 +45,9 @@ export const configureStore = () => {
       client: Client,
       dashboard: Dashboard,
       product: Product,
-      supplier: Supplier
+      supplier: Supplier,
+      expense: Expense,
+      expenseType: ExpenseType
     }),
     applyMiddleware(thunk)
   );

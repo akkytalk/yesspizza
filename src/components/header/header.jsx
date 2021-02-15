@@ -113,7 +113,8 @@ class Header extends React.Component {
             {/*--------------------------------------------------------------------------------*/}
             <NavbarBrand href="/">
                 <img
-                  src={"https://uditsolutions.in/invento/inventory/storage/app/public/upload/" + userdata.user.company_id + "/logo.png"}
+                  // src={"https://uditsolutions.in/invento/inventory/storage/app/public/upload/" + userdata.user.company_id + "/logo.png"}
+                  src={logolighticon}
                   width= "50px"
                   height= "35px"
                   alt="homepage"

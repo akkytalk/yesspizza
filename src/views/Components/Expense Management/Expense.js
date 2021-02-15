@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-// import AddProduct from "../Product/AddProduct";
-import EditProduct from "../Product/EditProduct";
+// import AddExpense from "../Expense/AddExpense";
+import EditExpense from "./EditExpense";
 import "react-table/react-table.css";
 import ReactTable from "react-table";
 import { withRouter } from "react-router-dom";
@@ -25,9 +25,9 @@ import AddExpense from "./AddExpense";
 const mapStateToProps = state => {
   return {
     login: state.login,
-    product: state.product,
+    expense: state.expense,
     category: state.category,
-    addProduct: state.addProduct
+    addExpense: state.addExpense
   };
 };
 
@@ -41,8 +41,8 @@ const mapDispatchToProps = dispatch => ({
   getExpense: data => {
     dispatch(getExpense(data));
   },
-  // removeProduct: data => {
-  //   dispatch(removeProduct(data));
+  // removeExpense: data => {
+  //   dispatch(removeExpense(data));
   // }
   postExpense: data => {
     dispatch(postExpense(data));
@@ -63,6 +63,7 @@ class Expense extends Component {
 
   componentDidMount() {
     this.fetchCategory();
+    console.log("expense data", this.props.expense)
   }
 
   fetchCategory() {
@@ -88,7 +89,7 @@ class Expense extends Component {
       token: token
     };
 
-    await this.props.getProductPage(data);
+    await this.props.getExpensePage(data);
   }
 
   async handleDelete(data, event) {
@@ -99,16 +100,16 @@ class Expense extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.addProduct.product.length > 0) {
-      this.props.deleteProduct("");
+    if (this.props.addExpense.expense.length > 0) {
+      this.props.deleteExpense("");
       this.fetchData(this.state, "aaaa");
     }
-    if (this.props.addProduct.delete.length > 0) {
-      this.props.deleteProduct("");
+    if (this.props.addExpense.delete.length > 0) {
+      this.props.deleteExpense("");
       this.fetchData(this.state, "aaaa");
     }
-    if (this.props.addProduct.edit.length > 0) {
-      this.props.deleteProduct("");
+    if (this.props.addExpense.edit.length > 0) {
+      this.props.deleteExpense("");
       this.fetchData(this.state, "aaaa");
     }
   }
@@ -124,25 +125,18 @@ class Expense extends Component {
         {
           Header: "Data",
           columns: [
+            
             {
-              Header: "Product Name",
-              accessor: "product_name"
+              Header: "Expense type",
+              accessor: "expense_type.name"
             },
             {
-              Header: "Category Name",
-              accessor: "category.category_name"
+              Header: "Expense Name",
+              accessor: "remark"
             },
             {
-              Header: "Sale Rate",
-              accessor: "sale_rate"
-            },
-            {
-              Header: "Type",
-              accessor: "type"
-            },
-            {
-              Header: "Weight",
-              accessor: "weight"
+              Header: "Amount",
+              accessor: "amount"
             }
           ]
         }
@@ -153,24 +147,17 @@ class Expense extends Component {
           Header: "Data",
           columns: [
             {
-              Header: "Product Name",
-              accessor: "product_name"
+              Header: "Expense type",
+              accessor: "expense_type.name"
             },
             {
-              Header: "Category Name",
-              accessor: "category.category_name"
+              Header: "Expense Name",
+              accessor: "remark"
             },
+      
             {
-              Header: "Sale Rate",
-              accessor: "sale_rate"
-            },
-            {
-              Header: "Type",
-              accessor: "type"
-            },
-            {
-              Header: "Weight",
-              accessor: "weight"
+              Header: "Amount",
+              accessor: "amount"
             }
           ]
         },
@@ -184,7 +171,7 @@ class Expense extends Component {
                 <Container>
                   <Row>
                     <Col>
-                      <EditProduct
+                      <EditExpense
                         id={row._original}
                         categorydata={this.props.category.categoryid}
                       />
@@ -235,9 +222,9 @@ class Expense extends Component {
           <ReactTable
             manual
             columns={columns}
-            loading={this.props.product.isLoading}
-            data={this.props.product.product.data}
-            pages={this.props.product.product.last_page}
+            loading={this.props.expense.isLoading}
+            // data={this.props.expense.expense.data}
+            // pages={this.props.expense.expense.last_page}
             onFetchData={(state, instance) => this.fetchData(state, instance)}
             defaultPageSize={10}
             // filterable
@@ -257,6 +244,4 @@ class Expense extends Component {
   }
 }
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(Expense)
-);
+export default withRouter( connect(mapStateToProps, mapDispatchToProps )(Expense));
