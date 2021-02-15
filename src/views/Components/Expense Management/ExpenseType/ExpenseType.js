@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-// import AddExpense from "../Expense/AddExpense";
-import EditExpense from "../EditExpense";
+
 // import "react-table/react-table.css";
 import ReactTable from "react-table";
 import { withRouter } from "react-router-dom";
@@ -20,7 +19,7 @@ import {
   Container,
   Button
 } from "reactstrap";
-import AddExpense from "../AddExpense";
+
 import { getCategory } from "../../../../redux/Creators/CategoryCreators";
 import AddExpenseType from "./AddExpenseType";
 import EditExpenseType from "./EditExpenseType";

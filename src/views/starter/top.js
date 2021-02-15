@@ -12,7 +12,7 @@ class Top extends Component {
     const data = this.props.dashboard;
     return (
       <div className="row">
-        <div className="col-sm-12 col-md-4 col-lg-4">
+        <div className="col-sm-12 col-md-3 col-lg-3">
           <Card outline color="success">
             <CardHeader className="bg-warning text-white">
               <h3 className="mb-0">Today's Sales</h3>
@@ -31,7 +31,7 @@ class Top extends Component {
             </CardFooter>
           </Card>
         </div>
-        <div className="col-sm-12 col-md-4 col-lg-4">
+        <div className="col-sm-12 col-md-3 col-lg-3">
           <Card>
             <CardHeader className="bg-danger text-white">
               <h3 className="mb-0">Month's Sales</h3>
@@ -50,7 +50,7 @@ class Top extends Component {
             </CardFooter>
           </Card>
         </div>
-        <div className="col-sm-12 col-md-4 col-lg-4">
+        <div className="col-sm-12 col-md-3 col-lg-3">
           <Card>
             <CardHeader className="bg-info text-white">
               <h3 className="mb-0">Total Products</h3>
@@ -66,6 +66,25 @@ class Top extends Component {
             </CardBody>
             <CardFooter>
               <h6>Products</h6>
+            </CardFooter>
+          </Card>
+        </div>
+        <div className="col-sm-12 col-md-3 col-lg-3">
+          <Card>
+            <CardHeader className="bg-success text-white">
+              <h3 className="mb-0">Monthy Expense</h3>
+            </CardHeader>
+            <CardBody>
+            {data ? (
+                data.isLoading ? (
+                  <Scale />
+                ) : data.dashboard ? (
+                  <h3>{data.dashboard.productcount}</h3>
+                ) : null
+              ) : null}
+            </CardBody>
+            <CardFooter>
+              <h6>Amount in Ruppees</h6>
             </CardFooter>
           </Card>
         </div>

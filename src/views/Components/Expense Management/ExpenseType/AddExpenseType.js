@@ -65,13 +65,13 @@ class AddExpenseType extends Component {
       
     };
     console.log("data value", data);
-    props.postExpense(data);
+    props.postExpenseType(data);
     setSubmitting(false);
     return;
   };
 
   render() {
-    const data = this.props.categorydata;
+    // const data = this.props.categorydata;
     return (
       <React.Fragment>
         <Button className="btn-success pull-right" onClick={this.toggle}>

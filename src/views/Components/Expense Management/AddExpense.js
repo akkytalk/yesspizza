@@ -77,14 +77,14 @@ class AddExpense extends Component {
     return (
       <React.Fragment>
         <Button className="btn-success pull-right" onClick={this.toggle}>
-          Add Expense Mangement
+          Add Expense
         </Button>
         <Modal
           className="modal-info modal-lg"
           isOpen={this.state.modal}
           toggle={this.toggle}
         >
-          <ModalHeader toggle={this.toggle}>Add New Expense Mangement</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Add New Expense</ModalHeader>
           <ModalBody>
             <Formik
               initialValues={{

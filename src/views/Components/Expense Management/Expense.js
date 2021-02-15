@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-// import AddExpense from "../Expense/AddExpense";
+import AddExpense from "./AddExpense";
 import EditExpense from "./EditExpense";
-import "react-table/react-table.css";
 import ReactTable from "react-table";
+import "react-table/react-table.css";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -20,7 +20,7 @@ import {
   Container,
   Button
 } from "reactstrap";
-import AddExpense from "./AddExpense";
+
 
 const mapStateToProps = state => {
   return {

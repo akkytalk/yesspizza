@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
-//import "react-table/react-table.css";
 import ReactTable from "react-table";
+import "react-table/react-table.css";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -84,8 +84,10 @@ class Product extends Component {
       pageSize: pageSize,
       token: token
     };
+    
 
     await this.props.getProductPage(data);
+    
   }
 
   async handleDelete(data, event) {
