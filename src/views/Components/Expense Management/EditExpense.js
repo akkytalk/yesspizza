@@ -60,15 +60,9 @@ class EditExpense extends Component {
     let data = {
       token: token,
       id: id,
-      category_name: values.category_name,
-      expense_name: values.expense_name,
-      hsn_code: values.hsn_code,
-      type: values.type,
-      weight: values.weight,
-      size: values.size,
-      color: values.color,
-      sale_rate: values.sale_rate,
-      gst_rate: values.gst_rate
+      expense_type_id: values.expense_type_id,
+      remark: values.remark,
+      amount: values.amount,
     };
     props.editExpense(data);
     setSubmitting(false);
@@ -97,11 +91,11 @@ class EditExpense extends Component {
                     ? data.category.category_name
                     : ""
                   : "",
-                
+
                 // expense_type_id: data ? data.expense_type_id : "",
                 remark: data ? data.remark : "",
                 amount: data ? data.amount : "",
-            
+
               }}
               onSubmit={this.handleSubmit}
             >
@@ -109,7 +103,7 @@ class EditExpense extends Component {
                 <Form>
                   <Row className="form-group">
                     <Col md={6}>
-                      <Label for="category_name">Category Name</Label>
+                      <Label for="category_name">Exp Name</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -126,10 +120,10 @@ class EditExpense extends Component {
                           <option disabled>Select Category</option>
                           {category
                             ? category.map((category, index) => (
-                                <option key={index}>
-                                  {category.category_name}
-                                </option>
-                              ))
+                              <option key={index}>
+                                {category.category_name}
+                              </option>
+                            ))
                             : null}
                         </Field>
                       </InputGroup>
@@ -170,11 +164,11 @@ class EditExpense extends Component {
                         />
                       </InputGroup>
                     </Col>
-                    
+
                   </Row>
-                  
-                  
-                  
+
+
+
                   <br />
                   <Row style={{ justifyContent: "center" }}>
                     <Col md={4}>

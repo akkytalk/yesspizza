@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import CustomInput from "../../Custom/CustomInput";
-import CustomSelect from "../../Custom/CustomSelect";
-import { postExpense } from "../../../../redux/Creators/ExpenseCreators";
+import * as Yup from "yup";
+import { postCategory } from "../../../../redux/Creators/CategoryCreators";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
 import {
   Row,
   Col,
@@ -22,14 +21,14 @@ import {
 const mapStateToProps = state => {
   return {
     login: state.login,
-    expense: state.expense,
-    addExpense: state.addExpense
+    expenseType: state.expenseType,
+    addExpenseType: state.addExpenseType
   };
 };
 
 const mapDispatchToProps = dispatch => ({
-  postExpense: data => {
-    dispatch(postExpense(data));
+  postCategory: (data) => {
+    dispatch(postCategory(data));
   }
 });
 
@@ -37,7 +36,6 @@ class AddExpenseType extends Component {
   constructor(props) {
     super(props);
     this.state = { modal: false };
-
     this.toggle = this.toggle.bind(this);
   }
 
@@ -47,10 +45,8 @@ class AddExpenseType extends Component {
     });
   }
 
-  
-
   componentDidUpdate() {
-    if (this.props.addExpense.expense.length > 0) {
+    if (this.props.addExpenseType.expenseType.length > 0) {
       this.setState({
         modal: false
       });
@@ -62,73 +58,45 @@ class AddExpenseType extends Component {
     let data = {
       token: token,
       name: values.name
-      
     };
-    console.log("data value", data);
-    props.postExpenseType(data);
+    props.postCategory(data);
     setSubmitting(false);
     return;
   };
 
   render() {
-    // const data = this.props.categorydata;
     return (
       <React.Fragment>
         <Button className="btn-success pull-right" onClick={this.toggle}>
           Add Expense Type
         </Button>
         <Modal
-          className="modal-info modal-lg"
+          className="modal-info"
           isOpen={this.state.modal}
           toggle={this.toggle}
         >
-          <ModalHeader toggle={this.toggle}>Add New Expense Type</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Add New Expnese Type</ModalHeader>
           <ModalBody>
             <Formik
               initialValues={{
-                name:""
-                
+                name: ""
               }}
               onSubmit={this.handleSubmit}
+              validationSchema={Yup.object().shape({
+                expenseType_name: Yup.string().required(
+                  "Name of Category is required"
+                )
+              })}
             >
               {formProps => (
                 <Form>
-                  {/* <Row className="form-group">
-                    <Col md={6}>
-                      <Label for="expense_type_id">Expense Type</Label>
-                      <InputGroup>
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Field
-                          component={CustomSelect}
-                          name="category_name"
-                          id="category_name"
-                          placeholder="Enter Expense Name"
-                        >
-                          <option hidden>Select Category</option>
-                          <option disabled>Select Category</option>
-                          {data
-                            ? data.map((data, index) => (
-                                <option key={index}>
-                                  {data.category_name}
-                                </option>
-                              ))
-                            : null}
-                        </Field>
-                      </InputGroup>
-                    </Col>
-                   
-                  </Row> */}
                   <Row className="form-group">
-                    <Col md={6}>
-                      <Label for="name">Expense Type</Label>
+                    <Col>
+                      <Label for="expenseType_name">Category Name</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
+                            <i className="far fa-sticky-note" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Field
@@ -136,15 +104,23 @@ class AddExpenseType extends Component {
                           type="text"
                           name="name"
                           id="name"
-                          placeholder="Enter Expense Type"
+                          className={
+                            "form-control" +
+                            (formProps.errors.name &&
+                              formProps.touched.name
+                              ? " is-invalid"
+                              : "")
+                          }
+                          placeholder="Enter Expense Type Name"
+                        />
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="invalid-feedback"
                         />
                       </InputGroup>
                     </Col>
-                    
                   </Row>
-                  
-          
-                  
                   <br />
                   <Row style={{ justifyContent: "center" }}>
                     <Col md={4}>

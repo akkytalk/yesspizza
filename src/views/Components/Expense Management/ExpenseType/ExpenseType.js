@@ -1,34 +1,30 @@
 import React, { Component } from "react";
-
-// import "react-table/react-table.css";
+import AddExpenseType from "./AddExpenseType";
+import EditExpenseType from "./EditExpenseType";
+//import "react-table/react-table.css";
 import ReactTable from "react-table";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
   getExpenseTypePage,
-  getExpenseType,
-  postExpenseType
+  deleteExpenseType,
+  removeExpenseType,
+  getExpenseType
 } from "../../../../redux/Creators/ExpenseTypeCreator";
- 
 import {
   Card,
   CardHeader,
   CardBody,
-  Row,
-  Col, 
   Container,
+  Row,
+  Col,
   Button
 } from "reactstrap";
-
-import { getCategory } from "../../../../redux/Creators/CategoryCreators";
-import AddExpenseType from "./AddExpenseType";
-import EditExpenseType from "./EditExpenseType";
 
 const mapStateToProps = state => {
   return {
     login: state.login,
     expenseType: state.expenseType,
-    category: state.category,
     addExpenseType: state.addExpenseType
   };
 };
@@ -37,17 +33,14 @@ const mapDispatchToProps = dispatch => ({
   getExpenseTypePage: data => {
     dispatch(getExpenseTypePage(data));
   },
-  getCategory: data => {
-    dispatch(getCategory(data));
-  },
   getExpenseType: data => {
     dispatch(getExpenseType(data));
   },
-  // removeExpenseType: data => {
-  //   dispatch(removeExpenseType(data));
-  // }
-  postExpenseType: data => {
-    dispatch(postExpenseType(data));
+  deleteExpenseType: data => {
+    dispatch(deleteExpenseType(data));
+  },
+  removeExpenseType: data => {
+    dispatch(removeExpenseType(data));
   }
 });
 
@@ -61,19 +54,6 @@ class ExpenseType extends Component {
       pageSize: 10,
       filtered: []
     };
-  }
-
-  componentDidMount() {
-    this.fetchCategory();
-    console.log("expenseType data", this.props.expenseType)
-  }
-
-  fetchCategory() {
-    const token = this.props.login.login.access_token;
-    let data = {
-      token: token
-    };
-    this.props.getCategory(data);
   }
 
   async fetchData(state, instance) {
@@ -98,7 +78,7 @@ class ExpenseType extends Component {
     event.preventDefault();
     const token = this.props.login.login.access_token;
     data.token = token;
-    await this.props.postExpenseType(data);
+    await this.props.removeExpenseType(data);
   }
 
   componentDidUpdate() {
@@ -116,9 +96,9 @@ class ExpenseType extends Component {
     }
   }
 
+
   render() {
     let columns = [];
-
     if (
       this.props.login.login.user.type === "company" &&
       this.props.login.login.user.role === "audit"
@@ -127,18 +107,9 @@ class ExpenseType extends Component {
         {
           Header: "Data",
           columns: [
-            
-            // {
-            //   Header: "Expense type",
-            //   accessor: "expenseType_type.name"
-            // },
-            // {
-            //   Header: "Expense Name",
-            //   accessor: "remark"
-            // },
             {
-              Header: "Expense Type",
-              accessor: "name"
+              Header: "ExpenseType Name",
+              accessor: "name" // String-based value accessors!
             }
           ]
         }
@@ -148,18 +119,9 @@ class ExpenseType extends Component {
         {
           Header: "Data",
           columns: [
-            // {
-            //   Header: "Expense type",
-            //   accessor: "expenseType_type.name"
-            // },
-            // {
-            //   Header: "Expense Name",
-            //   accessor: "remark"
-            // },
-      
             {
-              Header: "Expense Type",
-              accessor: "name"
+              Header: "ExpenseType Name",
+              accessor: "name" // String-based value accessors!
             }
           ]
         },
@@ -173,10 +135,7 @@ class ExpenseType extends Component {
                 <Container>
                   <Row>
                     <Col>
-                      <EditExpenseType
-                        id={row._original}
-                        categorydata={this.props.category.categoryid}
-                      />
+                      <EditExpenseType id={row._original} />
                     </Col>
                   </Row>
                 </Container>
@@ -207,26 +166,24 @@ class ExpenseType extends Component {
       ];
     }
 
+    console.log("props.expenseType", this.props.expenseType.expenseType)
+
     return (
       <Card>
         <CardHeader className="bg-primary text-white">
-          <i className="fas fa-rupee-sign" /> <strong>Expense Type</strong>
-          {
-            this.props.login.login.user.type === "company" && this.props.login.login.user.role === "admin" ? 
-            <AddExpenseType categorydata={this.props.category.categoryid} />
-             : null
-          }
-          <a></a>
+          <i className="far fa-rupee-sign" /> <strong>ExpenseType</strong>
+          {this.props.login.login.user.type === "company" &&
+            this.props.login.login.user.role === "admin" ? (
+              <AddExpenseType />
+            ) : null}
         </CardHeader>
-        
-       
         <CardBody>
           <ReactTable
             manual
             columns={columns}
             loading={this.props.expenseType.isLoading}
-            // data={this.props.expenseType.expenseType.data}
-            // pages={this.props.expenseType.expenseType.last_page}
+            data={this.props.expenseType.expenseType.data}
+            pages={this.props.expenseType.expenseType.last_page}
             onFetchData={(state, instance) => this.fetchData(state, instance)}
             defaultPageSize={10}
             // filterable
@@ -246,4 +203,6 @@ class ExpenseType extends Component {
   }
 }
 
-export default withRouter( connect(mapStateToProps, mapDispatchToProps )(ExpenseType));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(ExpenseType)
+);

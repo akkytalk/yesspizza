@@ -12,6 +12,7 @@ export const getCategoryPage = data => dispatch => {
   return fetch(baseUrl + "categories?page=" + data.pageno + "&pageSize=" + data.pageSize, {
     method: "get",
     headers: myheader
+
   })
     .then(response => {
       if (response.ok) {

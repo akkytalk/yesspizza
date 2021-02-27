@@ -15,10 +15,11 @@ export const getExpensePage = data => dispatch => {
   })
     .then(response => {
       if (response.ok) {
+        console.log(response)
         return response;
-        
+
       }
-      
+
       let error = new Error(
         "Error:" + response.status + "Error Text: " + response.statusText
       );
@@ -28,6 +29,7 @@ export const getExpensePage = data => dispatch => {
     })
     .then(response => response.json())
     .then(expense => {
+      console.log("expense", expense.Expense)
       dispatch(fetchExpense(expense.Expense));
     })
     .catch(error => dispatch(expenseFailed(error)));

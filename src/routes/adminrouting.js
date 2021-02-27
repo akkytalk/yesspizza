@@ -30,16 +30,7 @@ var AdminRoutes = [
     name: "Expense Type",
     icon: "fas fa-rupee-sign",
   },
-  {
-    path: "/expensetype",
-    name: "Expense Type",
-    icon: "fas fa-rupee-sign",
-  },
-  {
-    path: "/expensetype",
-    name: "Expense Type",
-    icon: "fas fa-rupee-sign",
-  },
+  
   {
     path: "/billhistory",
     name: "Bill History",

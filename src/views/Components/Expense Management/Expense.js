@@ -20,18 +20,26 @@ import {
   Container,
   Button
 } from "reactstrap";
+import {
+  getExpenseTypePage,
 
+} from "../../../redux/Creators/ExpenseTypeCreator";
 
 const mapStateToProps = state => {
   return {
     login: state.login,
     expense: state.expense,
     category: state.category,
-    addExpense: state.addExpense
+    addExpense: state.addExpense,
+    expenseType: state.expenseType,
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+
+  getExpenseTypePage: data => {
+    dispatch(getExpenseTypePage(data));
+  },
   getExpensePage: data => {
     dispatch(getExpensePage(data));
   },
@@ -125,7 +133,7 @@ class Expense extends Component {
         {
           Header: "Data",
           columns: [
-            
+
             {
               Header: "Expense type",
               accessor: "expense_type.name"
@@ -154,7 +162,7 @@ class Expense extends Component {
               Header: "Expense Name",
               accessor: "remark"
             },
-      
+
             {
               Header: "Amount",
               accessor: "amount"
@@ -173,7 +181,7 @@ class Expense extends Component {
                     <Col>
                       <EditExpense
                         id={row._original}
-                        categorydata={this.props.category.categoryid}
+                        categorydata={this.props.expenseType.expenseType.data}
                       />
                     </Col>
                   </Row>
@@ -205,26 +213,29 @@ class Expense extends Component {
       ];
     }
 
+    console.log("expense management", this.props.expense.expense)
+    console.log("expense type", this.props.expenseType.expenseType.data)
+
     return (
       <Card>
         <CardHeader className="bg-primary text-white">
           <i className="fas fa-rupee-sign" /> <strong>Expense Mangement</strong>
           {
-            this.props.login.login.user.type === "company" && this.props.login.login.user.role === "admin" ? 
-            <AddExpense categorydata={this.props.category.categoryid} />
-             : null
+            this.props.login.login.user.type === "company" && this.props.login.login.user.role === "admin" ?
+              <AddExpense categorydata={this.props.expenseType.expenseType.data} />
+              : null
           }
           <a></a>
         </CardHeader>
-        
-       
+
+
         <CardBody>
           <ReactTable
             manual
             columns={columns}
             loading={this.props.expense.isLoading}
-            // data={this.props.expense.expense.data}
-            // pages={this.props.expense.expense.last_page}
+            data={this.props.expense.expense.data}
+            pages={this.props.expense.expense.last_page}
             onFetchData={(state, instance) => this.fetchData(state, instance)}
             defaultPageSize={10}
             // filterable
@@ -244,4 +255,4 @@ class Expense extends Component {
   }
 }
 
-export default withRouter( connect(mapStateToProps, mapDispatchToProps )(Expense));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Expense));

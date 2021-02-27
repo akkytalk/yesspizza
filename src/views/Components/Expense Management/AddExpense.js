@@ -23,7 +23,8 @@ const mapStateToProps = state => {
   return {
     login: state.login,
     expense: state.expense,
-    addExpense: state.addExpense
+    addExpense: state.addExpense,
+    expenseType: state.expenseType,
   };
 };
 
@@ -47,7 +48,7 @@ class AddExpense extends Component {
     });
   }
 
-  
+
 
   componentDidUpdate() {
     if (this.props.addExpense.expense.length > 0) {
@@ -61,10 +62,10 @@ class AddExpense extends Component {
     const token = props.login.login.access_token;
     let data = {
       token: token,
-      expense_type_id: values.category_name,
+      expense_type_id: values.expense_type_id,
       remark: values.remark,
       amount: values.amount,
-      
+
     };
     console.log("data value", data);
     props.postExpense(data);
@@ -74,6 +75,7 @@ class AddExpense extends Component {
 
   render() {
     const data = this.props.categorydata;
+    console.log("this.props.categorydata", this.props.categorydata)
     return (
       <React.Fragment>
         <Button className="btn-success pull-right" onClick={this.toggle}>
@@ -91,7 +93,7 @@ class AddExpense extends Component {
                 expense_type_id: "",
                 remark: "",
                 amount: "",
-                
+
               }}
               onSubmit={this.handleSubmit}
             >
@@ -103,7 +105,7 @@ class AddExpense extends Component {
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
+                            <i class="fas fa-dollar-sign"></i>
                           </InputGroupText>
                         </InputGroupAddon>
                         <Field
@@ -112,19 +114,19 @@ class AddExpense extends Component {
                           id="category_name"
                           placeholder="Enter Expense Name"
                         >
-                          <option hidden>Select Category</option>
-                          <option disabled>Select Category</option>
+                          <option hidden>Select Expense Type</option>
+                          <option disabled>Select Expense Type</option>
                           {data
                             ? data.map((data, index) => (
-                                <option key={index}>
-                                  {data.category_name}
-                                </option>
-                              ))
+                              <option key={index}>
+                                {data.name}
+                              </option>
+                            ))
                             : null}
                         </Field>
                       </InputGroup>
                     </Col>
-                   
+
                   </Row>
                   <Row className="form-group">
                     <Col md={6}>
@@ -132,7 +134,7 @@ class AddExpense extends Component {
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
+                            <i class="fas fa-dollar-sign"></i>
                           </InputGroupText>
                         </InputGroupAddon>
                         <Field
@@ -144,7 +146,7 @@ class AddExpense extends Component {
                         />
                       </InputGroup>
                     </Col>
-                    
+
                   </Row>
                   <Row className="form-group">
                     <Col md={6}>
@@ -152,7 +154,7 @@ class AddExpense extends Component {
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                          <i class="fas fa-dollar-sign"></i>
+                            <i class="fas fa-dollar-sign"></i>
                           </InputGroupText>
                         </InputGroupAddon>
                         <Field
@@ -164,10 +166,10 @@ class AddExpense extends Component {
                         />
                       </InputGroup>
                     </Col>
-                    
+
                   </Row>
-          
-                  
+
+
                   <br />
                   <Row style={{ justifyContent: "center" }}>
                     <Col md={4}>
