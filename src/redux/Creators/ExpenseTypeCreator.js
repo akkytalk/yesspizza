@@ -9,13 +9,14 @@ export const getExpenseTypePage = data => dispatch => {
     Authorization: "Bearer " + data.token
   });
 
-  return fetch(baseUrl + "expenseTypes?page=" + data.pageno + "&pageSize=" + data.pageSize, {
+  // return fetch(baseUrl + "expenseTypes?page=" + data.pageno + "&pageSize=" + data.pageSize, {
+    return fetch(baseUrl + "expenseTypes", {
     method: "get",
     headers: myheader
   })
     .then(response => {
       if (response.ok) {
-        console.log("respose", response)
+        console.log("respose", response.json)
         return response;
       }
       let error = new Error(
@@ -27,7 +28,7 @@ export const getExpenseTypePage = data => dispatch => {
     })
     .then(response => {
       response.json();
-      // console.log("before", response.json());
+      console.log("before", response);
     })
     .then(expenseType => {
       console.log("expenseType.Expense", expenseType.ExpenseType)
@@ -65,7 +66,7 @@ export const getExpenseType = data => dispatch => {
     })
     .catch(error => dispatch(expenseTypeFailed(error)));
 };
-
+ 
 export const postExpenseType = data => dispatch => {
   dispatch(expenseTypeLoading(true));
   const myheader = new Headers({

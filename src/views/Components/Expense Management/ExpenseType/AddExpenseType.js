@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import CustomInput from "../../Custom/CustomInput";
 import * as Yup from "yup";
-import { postCategory } from "../../../../redux/Creators/CategoryCreators";
+import { postExpenseType } from  "../../../../redux/Creators/ExpenseTypeCreator"
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -27,8 +27,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  postCategory: (data) => {
-    dispatch(postCategory(data));
+  postExpenseType: (data) => {
+    dispatch(postExpenseType(data));
   }
 });
 
@@ -59,7 +59,8 @@ class AddExpenseType extends Component {
       token: token,
       name: values.name
     };
-    props.postCategory(data);
+    console.log("data", data)
+    props.postExpenseType(data);
     setSubmitting(false);
     return;
   };

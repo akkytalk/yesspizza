@@ -17,6 +17,7 @@ export const getCategoryPage = data => dispatch => {
     .then(response => {
       if (response.ok) {
         return response;
+        console.log("respose", response.json)
       }
       let error = new Error(
         "Error:" + response.status + "Error Text: " + response.statusText
@@ -25,8 +26,10 @@ export const getCategoryPage = data => dispatch => {
       error.response = response;
       throw error;
     })
-    .then(response => response.json())
+    .then(response => {response.json();console.log("before", response);}
+    )
     .then(category => {
+      console.log("catergory")
       dispatch(fetchCategory(category.Category));
     })
     .catch(error => dispatch(categoryFailed(error)));

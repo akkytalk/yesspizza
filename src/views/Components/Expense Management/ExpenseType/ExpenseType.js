@@ -8,8 +8,7 @@ import { connect } from "react-redux";
 import {
   getExpenseTypePage,
   deleteExpenseType,
-  removeExpenseType,
-  getExpenseType
+  removeExpenseType
 } from "../../../../redux/Creators/ExpenseTypeCreator";
 import {
   Card,
@@ -32,9 +31,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   getExpenseTypePage: data => {
     dispatch(getExpenseTypePage(data));
-  },
-  getExpenseType: data => {
-    dispatch(getExpenseType(data));
   },
   deleteExpenseType: data => {
     dispatch(deleteExpenseType(data));
@@ -95,7 +91,6 @@ class ExpenseType extends Component {
       this.fetchData(this.state, "aaaa");
     }
   }
-
 
   render() {
     let columns = [];
@@ -166,16 +161,15 @@ class ExpenseType extends Component {
       ];
     }
 
-    console.log("props.expenseType", this.props.expenseType.expenseType)
-
+   // console.log("expense type", this.props.expenseType)
     return (
       <Card>
         <CardHeader className="bg-primary text-white">
-          <i className="far fa-rupee-sign" /> <strong>ExpenseType</strong>
+          <i className="far fa-sticky-note" /> <strong>ExpenseType</strong>
           {this.props.login.login.user.type === "company" &&
-            this.props.login.login.user.role === "admin" ? (
-              <AddExpenseType />
-            ) : null}
+          this.props.login.login.user.role === "admin" ? (
+            <AddExpenseType />
+          ) : null}
         </CardHeader>
         <CardBody>
           <ReactTable
