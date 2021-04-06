@@ -32,6 +32,7 @@ export const postLogin = (data) => (dispatch) => {
     .then((login) => {
       dispatch(addLogin(login));
       toast.success("Welcome");
+      console.log("login", login);
     })
     .catch((error) => dispatch(loginFailed(error)));
 };
