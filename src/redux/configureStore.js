@@ -23,8 +23,8 @@ import { AddExpenseType } from "./Reducer/addExpenseType";
 import { ExpenseType } from "./Reducer/expenseType";
 
 const config = {
-  key: "root",
-  storage
+  key: "yespizza",
+  storage,
 };
 
 export const configureStore = () => {
@@ -47,9 +47,9 @@ export const configureStore = () => {
       product: Product,
       supplier: Supplier,
       expense: Expense,
-      expenseType: ExpenseType
+      expenseType: ExpenseType,
     }),
-    applyMiddleware(thunk)
+    applyMiddleware(thunk, logger)
   );
 
   const persistor = persistStore(store);
