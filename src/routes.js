@@ -16,7 +16,7 @@ function Loading() {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: "50vh"
+            height: "50vh",
           }}
         >
           <Loader />
@@ -28,67 +28,67 @@ function Loading() {
 
 const Dashboard = Loadable({
   loader: () => import("./views/starter/starter.jsx"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Category = Loadable({
   loader: () => import("./views/Components/Category/Category"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Company = Loadable({
   loader: () => import("./views/Components/Company/Company"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Product = Loadable({
   loader: () => import("./views/Components/Product/Product"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Client = Loadable({
   loader: () => import("./views/Components/Client/Client"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Report = Loadable({
   loader: () => import("./views/Components/Report/Report"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Inventory = Loadable({
   loader: () => import("./views/Components/Inventory/Inventory"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Billing = Loadable({
   loader: () => import("./views/Components/Billing/Billing"),
-  loading: Loading
+  loading: Loading,
 });
 
 const BillHistory = Loadable({
   loader: () => import("./views/Components/Billing/BillHistory"),
-  loading: Loading
+  loading: Loading,
 });
 
 const PrintPage = Loadable({
   loader: () => import("./views/Components/Billing/PrintModal"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Supplier = Loadable({
   loader: () => import("./views/Components/Supplier/Supplier"),
-  loading: Loading
+  loading: Loading,
 });
 
 const Export = Loadable({
   loader: () => import("./views/Components/Export/Export"),
-  loading: Loading
+  loading: Loading,
 });
 
 const CompanyProfile = Loadable({
   loader: () => import("./views/Components/Profile/CompanyProfile"),
-  loading: Loading
+  loading: Loading,
 });
 
 const routes = [
@@ -105,7 +105,7 @@ const routes = [
     path: "/billhistory",
     exact: true,
     name: "BillHistory",
-    component: BillHistory
+    component: BillHistory,
   },
   { path: "/print/:id", exact: true, name: "PrintPage", component: PrintPage },
   { path: "/supplier", exact: true, name: "Supplier", component: Supplier },
@@ -114,12 +114,20 @@ const routes = [
     path: "/profile",
     exact: true,
     name: "CompanyProfile",
-    component: CompanyProfile
+    component: CompanyProfile,
   },
-  { path: "/expense", exact: true, name: "ExpenseMangement", component: Expense },
-  
-  { path: "/expenses-type", exact: true, name: "ExpenseType", component: ExpenseType },
-
+  {
+    path: "/expenses-type",
+    exact: true,
+    name: "ExpenseType",
+    component: ExpenseType,
+  },
+  {
+    path: "/expense",
+    exact: true,
+    name: "ExpenseMangement",
+    component: Expense,
+  },
 ];
 
 export default routes;

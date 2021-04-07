@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import {
   getExpenseTypePage,
   deleteExpenseType,
-  removeExpenseType
+  removeExpenseType,
 } from "../../../../redux/Creators/ExpenseTypeCreator";
 import {
   Card,
@@ -17,27 +17,27 @@ import {
   Container,
   Row,
   Col,
-  Button
+  Button,
 } from "reactstrap";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     expenseType: state.expenseType,
-    addExpenseType: state.addExpenseType
+    addExpenseType: state.addExpenseType,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  getExpenseTypePage: data => {
+const mapDispatchToProps = (dispatch) => ({
+  getExpenseTypePage: (data) => {
     dispatch(getExpenseTypePage(data));
   },
-  deleteExpenseType: data => {
+  deleteExpenseType: (data) => {
     dispatch(deleteExpenseType(data));
   },
-  removeExpenseType: data => {
+  removeExpenseType: (data) => {
     dispatch(removeExpenseType(data));
-  }
+  },
 });
 
 class ExpenseType extends Component {
@@ -48,7 +48,7 @@ class ExpenseType extends Component {
       id: null,
       page: 0,
       pageSize: 10,
-      filtered: []
+      filtered: [],
     };
   }
 
@@ -64,7 +64,7 @@ class ExpenseType extends Component {
     let data = {
       pageno: pageno,
       pageSize: pageSize,
-      token: token
+      token: token,
     };
 
     await this.props.getExpenseTypePage(data);
@@ -104,10 +104,10 @@ class ExpenseType extends Component {
           columns: [
             {
               Header: "ExpenseType Name",
-              accessor: "name" // String-based value accessors!
-            }
-          ]
-        }
+              accessor: "name", // String-based value accessors!
+            },
+          ],
+        },
       ];
     } else {
       columns = [
@@ -116,9 +116,9 @@ class ExpenseType extends Component {
           columns: [
             {
               Header: "ExpenseType Name",
-              accessor: "name" // String-based value accessors!
-            }
-          ]
+              accessor: "name", // String-based value accessors!
+            },
+          ],
         },
         {
           Header: "Action",
@@ -134,7 +134,7 @@ class ExpenseType extends Component {
                     </Col>
                   </Row>
                 </Container>
-              )
+              ),
             },
             {
               Header: "Delete",
@@ -147,25 +147,25 @@ class ExpenseType extends Component {
                         color="danger"
                         size="sm"
                         id="delete"
-                        onClick={e => this.handleDelete(row._original, e)}
+                        onClick={(e) => this.handleDelete(row._original, e)}
                       >
                         <i className="fas fa-ban" />
                       </Button>
                     </Col>
                   </Row>
                 </Container>
-              )
-            }
-          ]
-        }
+              ),
+            },
+          ],
+        },
       ];
     }
 
-   // console.log("expense type", this.props.expenseType)
+    // console.log("expense type", this.props.expenseType)
     return (
       <Card>
         <CardHeader className="bg-primary text-white">
-          <i className="far fa-sticky-note" /> <strong>ExpenseType</strong>
+          <i className="fa fa-rupee-sign" /> <strong>ExpenseType</strong>
           {this.props.login.login.user.type === "company" &&
           this.props.login.login.user.role === "admin" ? (
             <AddExpenseType />
@@ -186,7 +186,7 @@ class ExpenseType extends Component {
             pageSize={this.state.pageSize}
             filtered={this.state.filtered}
             // Callbacks
-            onPageChange={page => this.setState({ page })}
+            onPageChange={(page) => this.setState({ page })}
             onPageSizeChange={(pageSize, page) =>
               this.setState({ page, pageSize })
             }

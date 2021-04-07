@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import CustomInput from "../../Custom/CustomInput";
 import * as Yup from "yup";
-import { postExpenseType } from  "../../../../redux/Creators/ExpenseTypeCreator"
+import { postExpenseType } from "../../../../redux/Creators/ExpenseTypeCreator";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import {
@@ -15,21 +15,21 @@ import {
   InputGroup,
   InputGroupAddon,
   Label,
-  InputGroupText
+  InputGroupText,
 } from "reactstrap";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     expenseType: state.expenseType,
-    addExpenseType: state.addExpenseType
+    addExpenseType: state.addExpenseType,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   postExpenseType: (data) => {
     dispatch(postExpenseType(data));
-  }
+  },
 });
 
 class AddExpenseType extends Component {
@@ -41,14 +41,14 @@ class AddExpenseType extends Component {
 
   toggle() {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   }
 
   componentDidUpdate() {
     if (this.props.addExpenseType.expenseType.length > 0) {
       this.setState({
-        modal: false
+        modal: false,
       });
     }
   }
@@ -57,9 +57,9 @@ class AddExpenseType extends Component {
     const token = props.login.login.access_token;
     let data = {
       token: token,
-      name: values.name
+      name: values.name,
     };
-    console.log("data", data)
+    console.log("data", data);
     props.postExpenseType(data);
     setSubmitting(false);
     return;
@@ -80,24 +80,22 @@ class AddExpenseType extends Component {
           <ModalBody>
             <Formik
               initialValues={{
-                name: ""
+                name: "",
               }}
               onSubmit={this.handleSubmit}
               validationSchema={Yup.object().shape({
-                expenseType_name: Yup.string().required(
-                  "Name of Category is required"
-                )
+                name: Yup.string().required("Name of Expense Type is required"),
               })}
             >
-              {formProps => (
+              {(formProps) => (
                 <Form>
                   <Row className="form-group">
                     <Col>
-                      <Label for="expenseType_name">Category Name</Label>
+                      <Label for="expenseType_name">Expense Type Name</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className="far fa-sticky-note" />
+                            <i className="fa fa-rupee-sign" />
                           </InputGroupText>
                         </InputGroupAddon>
                         <Field
@@ -107,8 +105,7 @@ class AddExpenseType extends Component {
                           id="name"
                           className={
                             "form-control" +
-                            (formProps.errors.name &&
-                              formProps.touched.name
+                            (formProps.errors.name && formProps.touched.name
                               ? " is-invalid"
                               : "")
                           }
@@ -135,6 +132,7 @@ class AddExpenseType extends Component {
                         disabled={formProps.isSubmitting}
                         color="primary"
                         block
+                        // onClick={this.handleSubmit}
                       >
                         Submit
                       </Button>
@@ -151,8 +149,5 @@ class AddExpenseType extends Component {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AddExpenseType)
+  connect(mapStateToProps, mapDispatchToProps)(AddExpenseType)
 );

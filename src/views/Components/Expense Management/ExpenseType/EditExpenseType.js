@@ -14,21 +14,21 @@ import {
   InputGroup,
   InputGroupAddon,
   Label,
-  InputGroupText
+  InputGroupText,
 } from "reactstrap";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     expenseType: state.expenseType,
-    addExpenseType: state.addExpenseType
+    addExpenseType: state.addExpenseType,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   editExpenseType: (data) => {
     dispatch(editExpenseType(data));
-  }
+  },
 });
 
 class EditExpenseType extends Component {
@@ -41,14 +41,14 @@ class EditExpenseType extends Component {
 
   toggle() {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   }
 
   componentDidUpdate() {
     if (this.props.addExpenseType.edit.length > 0) {
       this.setState({
-        modal: false
+        modal: false,
       });
     }
   }
@@ -59,8 +59,10 @@ class EditExpenseType extends Component {
     let data = {
       token: token,
       id: id,
-      name: values.name
+      name: values.name,
     };
+
+    console.log("data", data);
     props.editExpenseType(data);
     setSubmitting(false);
     return;
@@ -82,15 +84,15 @@ class EditExpenseType extends Component {
           <ModalBody>
             <Formik
               initialValues={{
-                name: data ? data.name : null
+                name: data ? data.name : null,
               }}
               onSubmit={this.handleSubmit}
             >
-              {formProps => (
+              {(formProps) => (
                 <Form>
                   <Row className="form-group">
                     <Col>
-                      <Label for="expenseType_name">ExpenseType Name</Label>
+                      <Label for="name">ExpenseType Name</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -136,8 +138,5 @@ class EditExpenseType extends Component {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(EditExpenseType)
+  connect(mapStateToProps, mapDispatchToProps)(EditExpenseType)
 );

@@ -19,12 +19,13 @@ var ThemeRoutes = [
     name: "Billing",
     icon: "fas fa-credit-card",
   },
-  
+
   {
-    path: "/expense",
+    path: "/Expense",
     name: "Expense Management",
     icon: "fas fa-rupee-sign",
   },
+
   {
     path: "/expenses-type",
     name: "Expense Type",
@@ -40,6 +41,6 @@ var ThemeRoutes = [
     name: "Company Profile",
     icon: "fas fa-user",
   },
-  { path: "/", pathTo: "/dashboard", name: "Dashboard", redirect: true }
+  { path: "/", pathTo: "/dashboard", name: "Dashboard", redirect: true },
 ];
 export default ThemeRoutes;

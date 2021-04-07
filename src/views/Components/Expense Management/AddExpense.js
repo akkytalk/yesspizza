@@ -16,10 +16,10 @@ import {
   InputGroup,
   InputGroupAddon,
   Label,
-  InputGroupText
+  InputGroupText,
 } from "reactstrap";
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     expense: state.expense,
@@ -28,10 +28,10 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  postExpense: data => {
+const mapDispatchToProps = (dispatch) => ({
+  postExpense: (data) => {
     dispatch(postExpense(data));
-  }
+  },
 });
 
 class AddExpense extends Component {
@@ -44,16 +44,14 @@ class AddExpense extends Component {
 
   toggle() {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   }
-
-
 
   componentDidUpdate() {
     if (this.props.addExpense.expense.length > 0) {
       this.setState({
-        modal: false
+        modal: false,
       });
     }
   }
@@ -62,10 +60,10 @@ class AddExpense extends Component {
     const token = props.login.login.access_token;
     let data = {
       token: token,
-      expense_type_id: values.expense_type_id,
+      expenseType_name: values.expenseType_name,
+      name: values.name,
       remark: values.remark,
       amount: values.amount,
-
     };
     console.log("data value", data);
     props.postExpense(data);
@@ -75,7 +73,7 @@ class AddExpense extends Component {
 
   render() {
     const data = this.props.categorydata;
-    console.log("this.props.categorydata", this.props.categorydata)
+    // console.log("this.props.categorydata", this.props.categorydata);
     return (
       <React.Fragment>
         <Button className="btn-success pull-right" onClick={this.toggle}>
@@ -90,18 +88,18 @@ class AddExpense extends Component {
           <ModalBody>
             <Formik
               initialValues={{
-                expense_type_id: "",
+                expenseType_name: "",
                 remark: "",
                 amount: "",
-
+                name: "",
               }}
               onSubmit={this.handleSubmit}
             >
-              {formProps => (
+              {(formProps) => (
                 <Form>
                   <Row className="form-group">
                     <Col md={6}>
-                      <Label for="expense_type_id">Expense Type</Label>
+                      <Label for="expenseType_name">Expense Type</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -110,27 +108,45 @@ class AddExpense extends Component {
                         </InputGroupAddon>
                         <Field
                           component={CustomSelect}
-                          name="category_name"
-                          id="category_name"
+                          name="expenseType_name"
+                          id="expenseType_name"
                           placeholder="Enter Expense Name"
                         >
                           <option hidden>Select Expense Type</option>
                           <option disabled>Select Expense Type</option>
                           {data
                             ? data.map((data, index) => (
-                              <option key={index}>
-                                {data.name}
-                              </option>
-                            ))
+                                <option key={index} value={data.name}>
+                                  {data.name}
+                                </option>
+                              ))
                             : null}
                         </Field>
                       </InputGroup>
                     </Col>
-
                   </Row>
                   <Row className="form-group">
                     <Col md={6}>
-                      <Label for="remark">Expense Name</Label>
+                      <Label for="name">Expense Name</Label>
+                      <InputGroup>
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i class="fas fa-dollar-sign"></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Field
+                          component={CustomInput}
+                          type="text"
+                          name="name"
+                          id="name"
+                          placeholder="Enter Expense Name"
+                        />
+                      </InputGroup>
+                    </Col>
+                  </Row>
+                  <Row className="form-group">
+                    <Col md={6}>
+                      <Label for="remark">Remarks</Label>
                       <InputGroup>
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -142,11 +158,10 @@ class AddExpense extends Component {
                           type="text"
                           name="remark"
                           id="remark"
-                          placeholder="Enter Expense Name"
+                          placeholder="Enter Expense Remark"
                         />
                       </InputGroup>
                     </Col>
-
                   </Row>
                   <Row className="form-group">
                     <Col md={6}>
@@ -159,16 +174,14 @@ class AddExpense extends Component {
                         </InputGroupAddon>
                         <Field
                           component={CustomInput}
-                          type="text"
+                          type="number"
                           name="amount"
                           id="amount"
                           placeholder="Enter Expense Amount"
                         />
                       </InputGroup>
                     </Col>
-
                   </Row>
-
 
                   <br />
                   <Row style={{ justifyContent: "center" }}>
@@ -199,8 +212,5 @@ class AddExpense extends Component {
 }
 
 export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(AddExpense)
+  connect(mapStateToProps, mapDispatchToProps)(AddExpense)
 );

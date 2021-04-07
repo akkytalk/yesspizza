@@ -9,14 +9,13 @@ export const getExpenseTypePage = (data) => (dispatch) => {
     Authorization: "Bearer " + data.token,
   });
 
-  return fetch(
-    baseUrl + "expenseTypes?page=" + data.pageno + "&pageSize=" + data.pageSize,
-    {
-      //  return fetch(baseUrl + "expenseTypes", {
-      method: "get",
-      headers: myheader,
-    }
-  )
+  // return fetch(
+  //   baseUrl + "expenseTypes?page=" + data.pageno + "&pageSize=" + data.pageSize,
+  //   {
+  return fetch(baseUrl + "expenseTypes", {
+    method: "get",
+    headers: myheader,
+  })
     .then((response) => {
       if (response.ok) {
         console.log("respose", response.json);
@@ -29,10 +28,7 @@ export const getExpenseTypePage = (data) => (dispatch) => {
       error.response = response;
       throw error;
     })
-    .then((response) => {
-      response.json();
-      console.log("before", response);
-    })
+    .then((response) => response.json())
     .then((expenseType) => {
       console.log("expenseType.Expense", expenseType.ExpenseType);
       dispatch(fetchExpenseType(expenseType.ExpenseType));
@@ -191,35 +187,35 @@ export const showExpenseType = (data) => (dispatch) => {
 };
 
 export const expenseTypeLoading = () => ({
-  type: ActionTypes.CATEGORY_LOADING,
+  type: ActionTypes.EXPENSE_TYPE_LOADING,
 });
 
 export const expenseTypeFailed = (errmess) => ({
-  type: ActionTypes.CATEGORY_FAILED,
+  type: ActionTypes.EXPENSE_TYPE_FAILED,
   payload: errmess,
 });
 
 export const addExpenseType = (expenseType) => ({
-  type: ActionTypes.POST_CATEGORY,
+  type: ActionTypes.POST_EXPENSE_TYPE,
   payload: expenseType,
 });
 
 export const updateExpenseType = (expenseType) => ({
-  type: ActionTypes.EDIT_CATEGORY,
+  type: ActionTypes.EDIT_EXPENSE_TYPE,
   payload: expenseType,
 });
 
 export const deleteExpenseType = (expenseType) => ({
-  type: ActionTypes.DELETE_CATEGORY,
+  type: ActionTypes.DELETE_EXPENSE_TYPE,
   payload: expenseType,
 });
 
 export const fetchExpenseType = (expenseType) => ({
-  type: ActionTypes.FETCH_CATEGORY,
+  type: ActionTypes.FETCH_EXPENSE_TYPE,
   payload: expenseType,
 });
 
 export const fetchExpenseTypeID = (expenseTypeid) => ({
-  type: ActionTypes.FETCH_CATEGORYID,
+  type: ActionTypes.FETCH_EXPENSE_TYPEID,
   payload: expenseTypeid,
 });

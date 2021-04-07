@@ -8,9 +8,11 @@ import { connect } from "react-redux";
 import {
   getExpensePage,
   getExpense,
-  postExpense
+  postExpense,
+  removeExpense,
+  deleteExpense,
 } from "../../../redux/Creators/ExpenseCreators";
-import { getCategory } from "../../../redux/Creators/CategoryCreators";
+
 import {
   Card,
   CardHeader,
@@ -18,43 +20,40 @@ import {
   Row,
   Col,
   Container,
-  Button
+  Button,
 } from "reactstrap";
-import {
-  getExpenseTypePage,
+import { getExpenseTypePage } from "../../../redux/Creators/ExpenseTypeCreator";
 
-} from "../../../redux/Creators/ExpenseTypeCreator";
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     login: state.login,
     expense: state.expense,
-    category: state.category,
+
     addExpense: state.addExpense,
     expenseType: state.expenseType,
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-
-  getExpenseTypePage: data => {
+const mapDispatchToProps = (dispatch) => ({
+  getExpenseTypePage: (data) => {
     dispatch(getExpenseTypePage(data));
   },
-  getExpensePage: data => {
+  getExpensePage: (data) => {
     dispatch(getExpensePage(data));
   },
-  getCategory: data => {
-    dispatch(getCategory(data));
-  },
-  getExpense: data => {
+
+  getExpense: (data) => {
     dispatch(getExpense(data));
   },
-  // removeExpense: data => {
-  //   dispatch(removeExpense(data));
-  // }
-  postExpense: data => {
+  deleteExpense: (data) => {
+    dispatch(deleteExpense(data));
+  },
+  removeExpense: (data) => {
+    dispatch(removeExpense(data));
+  },
+  postExpense: (data) => {
     dispatch(postExpense(data));
-  }
+  },
 });
 
 class Expense extends Component {
@@ -65,21 +64,21 @@ class Expense extends Component {
       id: null,
       page: 0,
       pageSize: 10,
-      filtered: []
+      filtered: [],
     };
   }
 
   componentDidMount() {
     this.fetchCategory();
-    console.log("expense data", this.props.expense)
+    //console.log("expense data", this.props.expense);
   }
 
   fetchCategory() {
     const token = this.props.login.login.access_token;
     let data = {
-      token: token
+      token: token,
     };
-    this.props.getCategory(data);
+    this.props.getExpense(data);
   }
 
   async fetchData(state, instance) {
@@ -94,7 +93,7 @@ class Expense extends Component {
     let data = {
       pageno: pageno,
       pageSize: pageSize,
-      token: token
+      token: token,
     };
 
     await this.props.getExpensePage(data);
@@ -104,7 +103,7 @@ class Expense extends Component {
     event.preventDefault();
     const token = this.props.login.login.access_token;
     data.token = token;
-    await this.props.postExpense(data);
+    await this.props.removeExpense(data);
   }
 
   componentDidUpdate() {
@@ -133,21 +132,24 @@ class Expense extends Component {
         {
           Header: "Data",
           columns: [
-
             {
               Header: "Expense type",
-              accessor: "expense_type.name"
+              accessor: "expense_type.name",
             },
             {
-              Header: "Expense Name",
-              accessor: "remark"
+              Header: "Expense Remark",
+              accessor: "remark",
+            },
+            {
+              Header: "Expense name",
+              accessor: "name",
             },
             {
               Header: "Amount",
-              accessor: "amount"
-            }
-          ]
-        }
+              accessor: "amount",
+            },
+          ],
+        },
       ];
     } else {
       columns = [
@@ -156,18 +158,22 @@ class Expense extends Component {
           columns: [
             {
               Header: "Expense type",
-              accessor: "expense_type.name"
+              accessor: "expense_type.name",
             },
             {
-              Header: "Expense Name",
-              accessor: "remark"
+              Header: "Expense Remark",
+              accessor: "remark",
+            },
+            {
+              Header: "Expense name",
+              accessor: "name",
             },
 
             {
               Header: "Amount",
-              accessor: "amount"
-            }
-          ]
+              accessor: "amount",
+            },
+          ],
         },
         {
           Header: "Action",
@@ -186,7 +192,7 @@ class Expense extends Component {
                     </Col>
                   </Row>
                 </Container>
-              )
+              ),
             },
             {
               Header: "Delete",
@@ -199,35 +205,35 @@ class Expense extends Component {
                         color="danger"
                         size="sm"
                         id="delete"
-                        onClick={e => this.handleDelete(row._original, e)}
+                        onClick={(e) => this.handleDelete(row._original, e)}
                       >
                         <i className="fas fa-ban" />
                       </Button>
                     </Col>
                   </Row>
                 </Container>
-              )
-            }
-          ]
-        }
+              ),
+            },
+          ],
+        },
       ];
     }
 
-    console.log("expense management", this.props.expense.expense)
-    console.log("expense type", this.props.expenseType.expenseType.data)
+    console.log("expense management", this.props.expense.expense);
+    //console.log("expense type", this.props.expenseType.expenseType.data);
 
     return (
       <Card>
         <CardHeader className="bg-primary text-white">
           <i className="fas fa-rupee-sign" /> <strong>Expense Mangement</strong>
-          {
-            this.props.login.login.user.type === "company" && this.props.login.login.user.role === "admin" ?
-              <AddExpense categorydata={this.props.expenseType.expenseType.data} />
-              : null
-          }
+          {this.props.login.login.user.type === "company" &&
+          this.props.login.login.user.role === "admin" ? (
+            <AddExpense
+              categorydata={this.props.expenseType.expenseType.data}
+            />
+          ) : null}
           <a></a>
         </CardHeader>
-
 
         <CardBody>
           <ReactTable
@@ -244,7 +250,7 @@ class Expense extends Component {
             pageSize={this.state.pageSize}
             filtered={this.state.filtered}
             // Callbacks
-            onPageChange={page => this.setState({ page })}
+            onPageChange={(page) => this.setState({ page })}
             onPageSizeChange={(pageSize, page) =>
               this.setState({ page, pageSize })
             }
@@ -255,4 +261,6 @@ class Expense extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Expense));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Expense)
+);
